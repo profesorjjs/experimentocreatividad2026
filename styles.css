@@ -1,0 +1,602 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f5fb;
+  color: #222;
+}
+
+.header {
+  background: #283593;
+  color: #fff;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.container {
+  max-width: 960px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+h2 {
+  margin-top: 0;
+  color: #1a237e;
+}
+
+h3, h4 {
+  color: #303f9f;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #c5cae9;
+  margin-bottom: 0.75rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="file"] {
+  margin-bottom: 0.75rem;
+}
+
+button {
+  background: #3949ab;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+button:hover {
+  background: #303f9f;
+}
+
+button.secondary {
+  background: #e0e0e0;
+  color: #333;
+}
+
+button.secondary:hover {
+  background: #d5d5d5;
+}
+
+.danger-button {
+  background: #c62828;
+}
+
+.danger-button:hover {
+  background: #b71c1c;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+.consent-box {
+  background: #e8eaf6;
+  border-left: 4px solid #3f51b5;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.message {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.message.success {
+  color: #2e7d32;
+}
+
+.message.error {
+  color: #c62828;
+}
+
+.preview img,
+.rating-card img,
+.photo-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.preview.hidden,
+.hidden {
+  display: none;
+}
+
+.rating-item {
+  margin: 0.5rem 0;
+}
+
+.rating-item input[type="range"] {
+  width: 100%;
+}
+
+.rating-item span {
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.puntf {
+  margin-top: 0.8rem;
+  font-weight: 600;
+}
+
+.rating-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.rating-card {
+  margin-top: 1rem;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #777;
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1.1rem;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+.section-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button {
+  background: #f4f6ff;
+  border: 1px solid #d7dbff;
+  color: #283593;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  line-height: 1;
+}
+
+.back-button:hover {
+  filter: brightness(0.98);
+}
+
+.back-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* ----- Panel admin: gráficos y listado de fotos ----- */
+
+.chart-bar-container {
+  max-width: 600px;
+  margin-top: 0.5rem;
+}
+
+.chart-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.chart-label {
+  width: 60px;
+  font-size: 0.8rem;
+}
+
+.chart-bar-outer {
+  flex: 1;
+  background: #e0e0e0;
+  border-radius: 999px;
+  overflow: hidden;
+  height: 10px;
+}
+
+.chart-bar-inner {
+  height: 10px;
+  background: #3949ab;
+}
+
+.photos-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.photo-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #fafafa;
+}
+
+.photo-card p {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.photo-ratings {
+  margin-top: 0.5rem;
+}
+
+.photo-ratings table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.photo-ratings th,
+.photo-ratings td {
+  border: 1px solid #e0e0e0;
+  padding: 0.25rem 0.4rem;
+  text-align: center;
+}
+
+.photo-ratings th {
+  background: #e8eaf6;
+  font-weight: 600;
+}
+
+/* ----- Configuración IA ligera ----- */
+
+.ai-config-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.ai-config-table th,
+.ai-config-table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.25rem 0.5rem;
+}
+
+.ai-config-table thead th {
+  background: #e8eaf6;
+  font-weight: 600;
+}
+
+.small-input {
+  width: 80px;
+}
+
+/* ----- Panel admin: botones de exportación ----- */
+
+.admin-export-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.admin-export-buttons button {
+  min-width: 220px;
+}
+
+.center-cell {
+  text-align: center;
+}
+
+/* ----- Bloque de análisis automático de creatividad ----- */
+
+.ai-analysis {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #f0f2ff;
+  border-left: 4px solid #3f51b5;
+  font-size: 0.9rem;
+}
+
+.ai-analysis p {
+  margin: 0.25rem 0;
+}
+
+.ai-analysis h3 {
+  margin-top: 0;
+}
+
+/* ----- Wizard (alumnado) ----- */
+.wizard-progress {
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.wizard-progress-bar {
+  height: 10px;
+  width: 0%;
+  background: #3949ab;
+  transition: width 180ms ease;
+}
+
+.wizard-step {
+  margin-top: 0.5rem;
+}
+
+.wizard-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.charline {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+  text-align: right;
+}
+
+.cbqd-intro {
+  margin: 0.25rem 0 0.75rem;
+  line-height: 1.45;
+  color: #333;
+}
+
+.cbqd-legend-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 0.9rem;
+  font-size: 0.95rem;
+}
+
+.cbqd-legend-table th,
+.cbqd-legend-table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.4rem 0.35rem;
+  text-align: center;
+}
+
+.cbqd-legend-table th {
+  background: #f7f7ff;
+  font-weight: 700;
+}
+
+.cbqd-item {
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  background: #fafafa;
+}
+
+.cbqd-section-title {
+  margin: 0.9rem 0 0.5rem;
+  padding: 0.65rem 0.75rem;
+  border-left: 4px solid #3f51b5;
+  background: #f0f2ff;
+  border-radius: 10px;
+}
+
+.cbqd-section-title p {
+  margin: 0;
+  color: #1a237e;
+  line-height: 1.35;
+}
+
+.cbqd-scale {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.cbqd-scale label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  background: #fff;
+  border: 1px solid #c5cae9;
+  border-radius: 8px;
+  padding: 0.35rem 0.25rem;
+}
+
+.cbqd-scorebox {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: #f0f2ff;
+  border-left: 4px solid #3f51b5;
+}
+
+.message.note {
+  background: #f0f2ff;
+  border-left: 4px solid #3f51b5;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+}
+
+
+/* Botón de borrado más agresivo (estudio completo) */
+.danger-button-strong{
+  border: 2px solid #b00020;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.danger-button-strong:hover{
+  filter: brightness(0.95);
+}
+/* =========================================================
+   Mejora de legibilidad SOLO de los textos de instrucciones
+   de las microtareas (pasos 3, 4 y 5 del wizard de alumnado)
+   Sin afectar a previsualizaciones, CBQD, panel admin ni expertos.
+   ========================================================= */
+.wizard-step[data-step="3"] > h3 + p.note,
+.wizard-step[data-step="4"] > h3 + p.note,
+.wizard-step[data-step="5"] > h3 + p.note {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #1a237e;
+  background: #f0f2ff;
+  border-left: 4px solid #3f51b5;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+
+/* ----- Expertos: rúbrica de valoración (panel desplegable) ----- */
+.rubric-controls {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.rubric-panel {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: #f7f7ff;
+  border: 1px solid #e3e6ff;
+}
+
+.rubric-intro {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+.rubric-item + .rubric-item {
+  margin-top: 0.85rem;
+}
+
+.rubric-item h5 {
+  margin: 0 0 0.35rem;
+  color: #1a237e;
+  font-size: 0.95rem;
+}
+
+.rubric-item ul {
+  margin: 0 0 0.25rem 1.1rem;
+  padding: 0;
+}
+
+.rubric-item li {
+  margin: 0.2rem 0;
+  line-height: 1.35;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* ----- Expertos: microtarea destacada en metadatos de la foto ----- */
+.rating-photo-info {
+  margin: 0.6rem 0 0.9rem;
+}
+
+.microtask-highlight {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  background: #f0f2ff;
+  border-left: 5px solid #3f51b5;
+  margin-bottom: 0.65rem;
+}
+
+.microtask-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #283593;
+  font-weight: 800;
+}
+
+.microtask-title {
+  font-size: 1.02rem;
+  color: #1a237e;
+  font-weight: 800;
+}
+
+.photo-meta {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #333;
+}
+
+.photo-meta .sep {
+  margin: 0 0.35rem;
+  color: #7a7a7a;
+}
+
+.photo-text {
+  margin-top: 0.35rem;
+}
+
+.photo-ai {
+  margin-top: 0.35rem;
+  color: #555;
+  font-size: 0.85rem;
+}
