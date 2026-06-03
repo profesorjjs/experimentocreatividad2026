@@ -227,6 +227,7 @@ const resetRatingsButton = document.getElementById("reset-ratings-button");
 const resetStudyButton = document.getElementById("reset-study-button");
 const studiesSelect = document.getElementById("studies");
 const bachWrapper = document.getElementById("bach-wrapper");
+const esoWrapper = document.getElementById("eso-wrapper");
 const ageChart = document.getElementById("age-chart");
 const ageChartNote = document.getElementById("age-chart-note");
 const loadPhotosButton = document.getElementById("load-photos-button");
@@ -608,17 +609,32 @@ async function loadGlobalConfig(forceServer = false) {
 // Cargar configuración al inicio (y garantizar que esté lista antes de usar contraseñas/CBQD)
 ensureConfigLoaded();
 
-// Listener para mostrar/ocultar modalidad de Bachillerato según nivel
-if (studiesSelect && bachWrapper) {
-  studiesSelect.addEventListener("change", () => {
-    if (studiesSelect.value === "Bachillerato") {
-      bachWrapper.style.display = "block";
-    } else {
-      bachWrapper.style.display = "none";
-      const bachTypeSelect = document.getElementById("bach-type");
-      if (bachTypeSelect) bachTypeSelect.value = "";
-    }
-  });
+function updateStudiesConditionalFields() {
+  const selectedStudies = studiesSelect?.value || "";
+  const bachTypeSelect = document.getElementById("bach-type");
+  const esoCourseSelect = document.getElementById("eso-course");
+
+  if (bachWrapper) {
+    bachWrapper.style.display = selectedStudies === "Bachillerato" ? "block" : "none";
+  }
+  if (bachTypeSelect && selectedStudies !== "Bachillerato") {
+    bachTypeSelect.value = "";
+  }
+
+  if (esoWrapper) {
+    esoWrapper.style.display = selectedStudies === "ESO" ? "block" : "none";
+  }
+  if (esoCourseSelect) {
+    const isEso = selectedStudies === "ESO";
+    esoCourseSelect.required = isEso;
+    if (!isEso) esoCourseSelect.value = "";
+  }
+}
+
+// Listener para mostrar/ocultar campos dependientes de Estudios actuales
+if (studiesSelect) {
+  studiesSelect.addEventListener("change", updateStudiesConditionalFields);
+  updateStudiesConditionalFields();
 }
 
 // Listener del checkbox en el panel de admin para pedir centro educativo
@@ -1659,6 +1675,12 @@ function resetUploaderState({ newParticipant = true } = {}) {
 
   // Ocultar bloques condicionales
   if (typeof bachWrapper !== "undefined" && bachWrapper) bachWrapper.style.display = "none";
+  if (typeof esoWrapper !== "undefined" && esoWrapper) esoWrapper.style.display = "none";
+  const esoCourseSelect = document.getElementById("eso-course");
+  if (esoCourseSelect) {
+    esoCourseSelect.required = false;
+    esoCourseSelect.value = "";
+  }
   if (typeof centerWrapper !== "undefined" && centerWrapper) centerWrapper.style.display = globalConfig.askCenter ? "block" : "none";
 
   // Limpiar radios CBQD explícitamente
@@ -2197,6 +2219,7 @@ submitAllBtn?.addEventListener("click", async () => {
     const gender = document.getElementById("gender")?.value || "";
     const studies = document.getElementById("studies")?.value || "";
     const bachType = document.getElementById("bach-type")?.value || "";
+    const esoCourse = document.getElementById("eso-course")?.value || "";
     const vocation = document.getElementById("vocation")?.value?.trim?.() || "";
     const studiesFather = document.getElementById("studies-father")?.value || "";
     const studiesMother = document.getElementById("studies-mother")?.value || "";
@@ -2271,6 +2294,7 @@ submitAllBtn?.addEventListener("click", async () => {
       gender,
       studies,
       bachType,
+      esoCourse,
       vocation,
       studiesFather,
       studiesMother,
@@ -2320,6 +2344,7 @@ submitAllBtn?.addEventListener("click", async () => {
       gender,
       studies,
       bachType,
+      esoCourse,
       vocation,
       studiesFather,
       studiesMother,
@@ -2450,6 +2475,7 @@ if (uploadForm) uploadForm.addEventListener("submit", async (e) => {
   const gender = document.getElementById("gender").value;
   const studies = document.getElementById("studies").value;
   const bachType = document.getElementById("bach-type").value || "";
+  const esoCourse = document.getElementById("eso-course")?.value || "";
   const vocation = document.getElementById("vocation").value.trim();
   const studiesFather = document.getElementById("studies-father").value;
   const studiesMother = document.getElementById("studies-mother").value;
@@ -2544,6 +2570,7 @@ if (uploadForm) uploadForm.addEventListener("submit", async (e) => {
       gender: gender,
       studies: studies,
       bachType: bachType,
+      esoCourse: esoCourse,
       vocation: vocation,
       studiesFather: studiesFather,
       studiesMother: studiesMother,
@@ -2585,6 +2612,7 @@ if (uploadForm) uploadForm.addEventListener("submit", async (e) => {
       " | Sexo: " + gender +
       " | Estudios: " + studies +
       " | Bachillerato: " + (bachType || "N/A") +
+      " | ESO: " + (esoCourse || "N/A") +
       aiText + localText + deepText;
 
     if (uploadAiAnalysis) {
@@ -2609,6 +2637,9 @@ if (uploadForm) uploadForm.addEventListener("submit", async (e) => {
 
     uploadForm.reset();
     if (bachWrapper) bachWrapper.style.display = "none";
+    if (esoWrapper) esoWrapper.style.display = "none";
+    const esoCourseSelect = document.getElementById("eso-course");
+    if (esoCourseSelect) esoCourseSelect.required = false;
     applyConfigToUpload(); // reconstruir select de centros tras reset
   } catch (err) {
     console.error("Error al procesar o guardar la fotografía:", err);
@@ -2983,7 +3014,7 @@ async function loadAllPhotosWithRatings() {
       meta.innerHTML = `
         <strong>ID:</strong> ${photoId}<br>
         Edad: ${p.age ?? ""} | Sexo: ${p.gender || ""}<br>
-        Estudios: ${p.studies || ""} | Bachillerato: ${p.bachType || ""}<br>
+        Estudios: ${p.studies || ""} | Bachillerato: ${p.bachType || ""} | ESO: ${p.esoCourse || ""}<br>
         Vocación: ${p.vocation || ""}<br>
         Centro: ${p.center || ""}<br>
         ${ai1} ${ai2} ${ai3}
@@ -3187,6 +3218,7 @@ document.getElementById("export-csv-button").addEventListener("click", async () 
       "edad",
       "estudios",
       "tipoBach",
+      "cursoESO",
       "vocacion",
       "estudios_padre",
       "estudios_madre",
@@ -3244,6 +3276,7 @@ document.getElementById("export-csv-button").addEventListener("click", async () 
         gender: d.gender || p?.gender || "",
         studies: d.studies || p?.studies || "",
         bachType: d.bachType || p?.bachType || "",
+        esoCourse: d.esoCourse || p?.esoCourse || "",
         vocation: d.vocation || p?.vocation || "",
         studiesFather: d.studiesFather || p?.studiesFather || "",
         studiesMother: d.studiesMother || p?.studiesMother || "",
@@ -3323,6 +3356,7 @@ document.getElementById("export-csv-button").addEventListener("click", async () 
         dem.age,
         dem.studies,
         dem.bachType,
+        dem.esoCourse,
         dem.vocation,
         dem.studiesFather,
         dem.studiesMother,
@@ -3573,6 +3607,7 @@ document.getElementById("export-csv-students-button")?.addEventListener("click",
       "age",
       "studies",
       "bachType",
+      "esoCourse",
       "vocation",
       "studiesFather",
       "studiesMother",
@@ -3686,6 +3721,7 @@ document.getElementById("export-csv-students-button")?.addEventListener("click",
         dem.age ?? "",
         dem.studies ?? "",
         dem.bachType ?? "",
+        dem.esoCourse ?? "",
         dem.vocation ?? "",
         dem.studiesFather ?? "",
         dem.studiesMother ?? "",
